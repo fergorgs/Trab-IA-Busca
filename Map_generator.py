@@ -5,16 +5,31 @@ class Map_generator:
     
     def make_map(self, M=None, N=None, iterations=None, min_length_of_hallways=None, start_point=None, end_point=None, seed=None):
 
+        if(seed == None):
+            seed = str(random.randrange(1000000, 9999999)) + str(random.randrange(1000000, 9999999)) + str(random.randrange(1000000, 9999999))
         if(M == None):
-            M = random.randrange(5, 50)
+            M = 0
+            for x in range(10):
+                M += int(seed[x])
+            M *= (45/210)
+            M += 5
+            M = int(M)
         if(N == None):
-            N = random.randrange(5, 50)
+            N = 0
+            for x in range(10):
+                N += int(seed[x+5])
+            N *= (45/210)
+            N += 5
+            N = int(N)
         if(iterations == None):
             iterations = (M*N)*(M*N)
         if(min_length_of_hallways == None):
-            min_length_of_hallways = random.randrange(1, 5)
-        if(seed == None):
-            seed = str(random.randrange(1000000, 9999999)) + str(random.randrange(1000000, 9999999)) + str(random.randrange(1000000, 9999999))
+            min_length_of_hallways = 0
+            for x in range(10):
+                min_length_of_hallways += int(seed[x+10])
+            min_length_of_hallways *= (5/210)
+            min_length_of_hallways += 1
+            min_length_of_hallways = int(min_length_of_hallways)
         
         map = np.zeros((N, M))
 
@@ -24,10 +39,12 @@ class Map_generator:
         move_dir = int(seed[0])*int(seed[1])
         move_dir %= 4
         steps = min_length_of_hallways
+        viable_positions = []
 
         for x in range(iterations):
 
             map[cur_i][cur_j] = 1
+            viable_positions.append((cur_i, cur_j))
 
             if(steps == 0):
                 move_dir = int(seed[x % len(seed)])*int(seed[(x+1) % len(seed)])
@@ -54,43 +71,14 @@ class Map_generator:
             steps -= 1
 
         if(start_point == None):
-
-            t = 0
-            i = -1
-            j = -1
-
-            while(True):
-                i = int(seed[t % len(seed)]) * int(seed[(t+1) % len(seed)]) * int(seed[(t+2) % len(seed)])
-                j = int(seed[(t+3) % len(seed)]) * int(seed[(t+4) % len(seed)]) * int(seed[(t+5) % len(seed)])
-
-                i %= N
-                j %= M
-
-
-                if(map[i][j] == 1):
-                    start_point = (i, j)
-                    break
-
-                t += 1
+            aux = int(seed[10])*int(seed[11])*int(seed[12])
+            aux %= len(viable_positions)
+            start_point = viable_positions[aux]
 
         if(end_point == None):
-
-            t = 0
-            i = -1
-            j = -1
-
-            while(True):
-                i = (int(seed[t % len(seed)]) + int(seed[(t+1) % len(seed)])) * int(seed[(t+2) % len(seed)])
-                j = (int(seed[(t+3) % len(seed)]) + int(seed[(t+4) % len(seed)])) * int(seed[(t+5) % len(seed)])
-
-                i %= N
-                j %= M
-
-                if(map[i][j] == 1):
-                    end_point = (i, j)
-                    break
-
-                t += 1
+            aux = int(seed[12])*int(seed[13])*int(seed[14])
+            aux %= len(viable_positions)
+            end_point = viable_positions[aux]
 
         char_map = [[str(s) for s in sublist] for sublist in map]
 
@@ -99,8 +87,10 @@ class Map_generator:
 
                 if(map[i][j] == 1):
                     char_map[i][j] = '*'
+                    
                 else:
                     char_map[i][j] = '-'
+                    
 
         char_map[start_point[0]][start_point[1]] = '#'
         char_map[end_point[0]][end_point[1]] = '$'
@@ -116,7 +106,7 @@ class Map_generator:
                 f.write(line + '\n')
 
 
-        return start_point, end_point, char_map
+        return seed, start_point, end_point, char_map
 
 
 

@@ -50,7 +50,9 @@ from Map_generator import Map_generator
 
 genr = Map_generator()
 
-s, e, m = genr.make_map()
+seed, start, e, m = genr.make_map()
+
+print(seed)
 
 # print(s)
 # print(e)
