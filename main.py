@@ -3,6 +3,7 @@ import numpy
 from DFS import DFS_finder
 from BFS import BFS_finder
 from A_star import A_star_finder
+from Hill_climbing import Hill_climbing_finder
 from Map_generator import Map_generator
 
 
@@ -51,18 +52,16 @@ for i in range(shape[0]):
 
 # A_star----------------------------------------------
 
-a_star = A_star_finder(map)
-res, path = a_star.solve_map(start_point, end_point)
+# a_star = A_star_finder(map)
+# res, path = a_star.solve_map(start_point, end_point)
+
+# print(res)
+# print(path)
+
+# Hill_Climbing----------------------------------------------
+
+hill_climbing = Hill_climbing_finder(map)
+res, path = hill_climbing.solve_map(start_point, end_point)
 
 print(res)
 print(path)
-
-# genr = Map_generator()
-
-# seed, start, e, m = genr.make_map()
-
-# print(seed)
-
-# print(s)
-# print(e)
-# print(m)
