@@ -68,29 +68,30 @@ class Hill_climbing_finder:
                 if(new_cost <= cur_cost):                                                       # se é melhor ou igual ao atual
                     cur_cost = new_cost                                                         # atualiza o custo atual
                     next_pos = (cur_pos[0]-1, cur_pos[1])                                       # atualiza a posição atual
-                    self.cache_map[cur_pos[0]-1][cur_pos[1]] = 3                                # torna a posição invalida
+                    # self.cache_map[cur_pos[0]-1][cur_pos[1]] = 3                                # torna a posição invalida
 
             if(cur_pos[1]-1 >= 0 and self.cache_map[cur_pos[0]][cur_pos[1]-1] == 1):
                 new_cost = abs(end_point[0] - cur_pos[0]) + abs(end_point[1] - (cur_pos[1]-1))
                 if(new_cost <= cur_cost):
                     cur_cost = new_cost
                     next_pos = (cur_pos[0], cur_pos[1]-1)
-                    self.cache_map[cur_pos[0]][cur_pos[1]-1] = 3
+                    # self.cache_map[cur_pos[0]][cur_pos[1]-1] = 3
 
-            # if(cur_pos[0]+1 < self.map.shape[0]):
             if(cur_pos[0]+1 < self.map.shape[0] and self.cache_map[cur_pos[0]+1][cur_pos[1]] == 1):
                 new_cost = abs(end_point[0] - (cur_pos[0]+1)) + abs(end_point[1] - cur_pos[1])
                 if(new_cost <= cur_cost):
                     cur_cost = new_cost
                     next_pos = (cur_pos[0]+1, cur_pos[1])
-                    self.cache_map[cur_pos[0]+1][cur_pos[1]] = 3
+                    # self.cache_map[cur_pos[0]+1][cur_pos[1]] = 3
 
             if(cur_pos[1]+1 < self.map.shape[1] and self.cache_map[cur_pos[0]][cur_pos[1]+1] == 1):
                 new_cost = abs(end_point[0] - cur_pos[0]) + abs(end_point[1] - (cur_pos[1]+1))
                 if(new_cost <= cur_cost):
                     cur_cost = new_cost
                     next_pos = (cur_pos[0], cur_pos[1]+1)
-                    self.cache_map[cur_pos[0]][cur_pos[1]+1] = 3
+                    # self.cache_map[cur_pos[0]][cur_pos[1]+1] = 3
+
+            self.cache_map[next_pos] = 3
 
             if plot:
                 bg = fig.canvas.copy_from_bbox(ax.bbox)
