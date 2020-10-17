@@ -35,6 +35,16 @@ for i in range(shape[0]):
         break
 
 
+# Map Generator
+
+gen = Map_generator()
+seed, start, end, map = gen.make_map(N=20, M=20, iterations=40, min_length_of_hallways=5)
+
+for line in map:
+    for c in line:
+        print(c, end='')
+    print('')
+
 # DFS-------------------------------------------------
 
 # dsf = DFS_finder(map)
@@ -68,8 +78,8 @@ for i in range(shape[0]):
 
 # Hill_Climbing----------------------------------------------
 
-hill_climbing = Hill_climbing_finder(map)
-res, path = hill_climbing.solve_map(start_point, end_point, plot=True)
+# hill_climbing = Hill_climbing_finder(map)
+# res, path = hill_climbing.solve_map(start_point, end_point, plot=True)
 
-print(res)
-print(path)
+# print(res)
+# print(path)
