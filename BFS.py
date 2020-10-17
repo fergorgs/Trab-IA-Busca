@@ -1,4 +1,7 @@
 import numpy
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+
 
 class BFS_finder:
     
@@ -17,7 +20,10 @@ class BFS_finder:
         self.map = map
 
 
-    def __find_path(self, start_point, end_point):
+    def __find_path(self, start_point, end_point, plot):   
+        cmap = ListedColormap(['#000000', '#eeeeee', '#9999ee', '#4444ff', '#44ff44'])
+        fig = plt.figure()
+        ax = fig.add_subplot()
 
         queue = []
         hash_map = {}
@@ -58,8 +64,15 @@ class BFS_finder:
                 queue.append((cur_pos[0], cur_pos[1]+1))                           
                 self.cache_map[cur_pos[0]][cur_pos[1]+1] = 0
                 hash_map[(cur_pos[0], cur_pos[1]+1)] = (cur_pos[0], cur_pos[1])
+            
+            if plot:
+                ax.matshow(self.cache_map, cmap=cmap)
+                fig.canvas.draw()
 
-        
+                fig.show()
+
+                plt.pause(0.0001)
+
         if(not found):
             return False, None
 
@@ -68,11 +81,23 @@ class BFS_finder:
         while(cur_pos != (-1, -1)):
             
             path.insert(0, cur_pos)
-            cur_pos = hash_map[cur_pos]
+            cur_pos = hash_map[cur_pos]            
+        
+        if plot:
+            self.cache_map[end_point[0]][end_point[1]] = 4
 
+            for p in path:
+                self.cache_map[p[0]][p[1]] = 4
+                ax.matshow(self.cache_map, cmap=cmap)
+                fig.canvas.draw()
+
+                fig.show()
+
+                plt.pause(0.0001)
+        
         return True, path
 
 
-    def solve_map(self, start_point, end_point):
+    def solve_map(self, start_point, end_point, plot=False):
 
-        return self.__find_path(start_point, end_point)
+        return self.__find_path(start_point, end_point, plot)

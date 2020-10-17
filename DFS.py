@@ -1,5 +1,6 @@
 import numpy
 
+
 class DFS_finder:
     
 
@@ -25,7 +26,15 @@ class DFS_finder:
         if(start_point == end_point):
             return True, path
 
-        self.cache_map[start_point[0]][start_point[1]] = 0
+        self.cache_map[start_point[0]][start_point[1]] = 2
+
+        if self.plot:
+            self.ax.matshow(self.cache_map)
+            self.fig.canvas.draw()
+
+            self.fig.show()
+
+            plt.pause(0.0001)
 
         #Ordem de chamada: cima, esquerda, baixo, direita
         if(start_point[0]-1 >= 0 and self.cache_map[start_point[0]-1][start_point[1]] == 1):
@@ -52,7 +61,21 @@ class DFS_finder:
 
 
 
-    def solve_map(self, start_point, end_point):
-
+    def solve_map(self, start_point, end_point, plot=False):
         self.cache_map = self.map.copy()
-        return self.__find_path(start_point, end_point, [])
+        self.fig = plt.figure()
+        self.ax = fig.add_subplot()
+        self.plot = plot
+        path = self.__find_path(start_point, end_point, [])
+        if self.plot:
+            self.cache_map[end_point[0]][end_point[1]] = 4
+
+            for self.p in path:
+                self.cache_map[p[0]][p[1]] = 4
+                self.ax.matshow(self.cache_map)
+                self.fig.canvas.draw()
+
+                self.fig.show()
+
+                plt.pause(0.0001)
+        return path
