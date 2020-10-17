@@ -101,4 +101,6 @@ class DFS_finder:
 
                 plt.pause(0.0001)
 
+        if (plot):
+            plt.show()
         return found, path

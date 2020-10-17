@@ -82,6 +82,8 @@ class Best_first_finder:
 
         
         if(not found):
+            if (plot):
+                plt.show()
             return False, None
 
         path = []
@@ -108,7 +110,9 @@ class Best_first_finder:
                 fig.show()
 
                 plt.pause(0.0001)
-        
+                
+            plt.show()
+
         return True, path
 
 

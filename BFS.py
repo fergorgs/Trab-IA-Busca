@@ -87,6 +87,8 @@ class BFS_finder:
                 plt.pause(0.0001)
 
         if(not found):
+            if (plot):
+                plt.show()
             return False, None
 
         path = []
@@ -113,6 +115,8 @@ class BFS_finder:
                 fig.show()
 
                 plt.pause(0.0001)
+            
+            plt.show()
         
         return True, path
 

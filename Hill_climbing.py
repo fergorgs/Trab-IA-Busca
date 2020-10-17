@@ -57,6 +57,7 @@ class Hill_climbing_finder:
                         fig.show()
 
                         plt.pause(0.0001)
+                    plt.show()
 
                 return True, path
 
@@ -91,7 +92,8 @@ class Hill_climbing_finder:
                     next_pos = (cur_pos[0], cur_pos[1]+1)
                     # self.cache_map[cur_pos[0]][cur_pos[1]+1] = 3
 
-            self.cache_map[next_pos] = 3
+            if (next_pos != None):
+                self.cache_map[next_pos] = 3
 
             if plot:
                 bg = fig.canvas.copy_from_bbox(ax.bbox)
@@ -108,7 +110,8 @@ class Hill_climbing_finder:
             
             cur_pos = next_pos
 
-
+        if (plot):
+            plt.show()
         return False, path
 
 
