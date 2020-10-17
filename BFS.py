@@ -21,7 +21,7 @@ class BFS_finder:
 
 
     def __find_path(self, start_point, end_point, plot):   
-        cmap = ListedColormap(['#000000', '#eeeeee', '#9999ee', '#4444ff', '#44ff44'])
+        cmap = ListedColormap(['#000000', '#eeeeee', '#9999ee', '#4444ff', '#44ff44', '#ff4444'])
         fig = plt.figure()
         ax = fig.add_subplot()
 
@@ -30,8 +30,14 @@ class BFS_finder:
         self.cache_map = self.map.copy()
 
         queue.append(start_point)
-        self.cache_map[start_point[0], start_point[1]] = 0
+        self.cache_map[start_point] = 2
         hash_map[(start_point)] = (-1, -1)
+
+        self.cache_map[end_point] = 5
+        img_data = ax.matshow(self.cache_map, cmap=cmap)
+        fig.canvas.draw()
+
+        self.cache_map[end_point] = 1
 
         cur_pos = (-1, -1)
         found = False
@@ -40,6 +46,8 @@ class BFS_finder:
 
             cur_pos = queue.pop(0)
 
+            self.cache_map[cur_pos] = 3
+
             if(cur_pos == end_point):
                 found = True
                 break
@@ -47,27 +55,32 @@ class BFS_finder:
             #Ordem de chamada: cima, esquerda, baixo, direita
             if(cur_pos[0]-1 >= 0 and self.cache_map[cur_pos[0]-1][cur_pos[1]] == 1):    # se existe e é viavel
                 queue.append((cur_pos[0]-1, cur_pos[1]))                                # add a proxima posição na fina
-                self.cache_map[cur_pos[0]-1][cur_pos[1]] = 0                            # torna a proxima posição invalida
+                self.cache_map[cur_pos[0]-1][cur_pos[1]] = 2                            # torna a proxima posição invalida
                 hash_map[(cur_pos[0]-1, cur_pos[1])] = (cur_pos[0], cur_pos[1])         # add a tupla ao dict
 
             if(cur_pos[1]-1 >= 0 and self.cache_map[cur_pos[0]][cur_pos[1]-1] == 1):
                 queue.append((cur_pos[0], cur_pos[1]-1))                           
-                self.cache_map[cur_pos[0]][cur_pos[1]-1] = 0
+                self.cache_map[cur_pos[0]][cur_pos[1]-1] = 2
                 hash_map[(cur_pos[0], cur_pos[1]-1)] = (cur_pos[0], cur_pos[1]) 
 
             if(cur_pos[0]+1 < self.map.shape[0] and self.cache_map[cur_pos[0]+1][cur_pos[1]] == 1):
                 queue.append((cur_pos[0]+1, cur_pos[1]))                           
-                self.cache_map[cur_pos[0]+1][cur_pos[1]] = 0
+                self.cache_map[cur_pos[0]+1][cur_pos[1]] = 2
                 hash_map[(cur_pos[0]+1, cur_pos[1])] = (cur_pos[0], cur_pos[1])
 
             if(cur_pos[1]+1 < self.map.shape[1] and self.cache_map[cur_pos[0]][cur_pos[1]+1] == 1):
                 queue.append((cur_pos[0], cur_pos[1]+1))                           
-                self.cache_map[cur_pos[0]][cur_pos[1]+1] = 0
+                self.cache_map[cur_pos[0]][cur_pos[1]+1] = 2
                 hash_map[(cur_pos[0], cur_pos[1]+1)] = (cur_pos[0], cur_pos[1])
             
             if plot:
-                ax.matshow(self.cache_map, cmap=cmap)
-                fig.canvas.draw()
+                bg = fig.canvas.copy_from_bbox(ax.bbox)
+                
+                img_data.set_data(self.cache_map)
+
+                fig.canvas.restore_region(bg)
+                ax.draw_artist(img_data)
+                fig.canvas.blit(ax.bbox)
 
                 fig.show()
 
@@ -84,12 +97,18 @@ class BFS_finder:
             cur_pos = hash_map[cur_pos]            
         
         if plot:
-            self.cache_map[end_point[0]][end_point[1]] = 4
+            self.cache_map[end_point] = 5
 
             for p in path:
-                self.cache_map[p[0]][p[1]] = 4
-                ax.matshow(self.cache_map, cmap=cmap)
-                fig.canvas.draw()
+                self.cache_map[p] = 4
+
+                bg = fig.canvas.copy_from_bbox(ax.bbox)
+                
+                img_data.set_data(self.cache_map)
+
+                fig.canvas.restore_region(bg)
+                ax.draw_artist(img_data)
+                fig.canvas.blit(ax.bbox)
 
                 fig.show()
 

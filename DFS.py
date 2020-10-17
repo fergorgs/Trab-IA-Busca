@@ -1,4 +1,6 @@
 import numpy
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 
 
 class DFS_finder:
@@ -26,11 +28,16 @@ class DFS_finder:
         if(start_point == end_point):
             return True, path
 
-        self.cache_map[start_point[0]][start_point[1]] = 2
+        self.cache_map[start_point[0]][start_point[1]] = 3
 
         if self.plot:
-            self.ax.matshow(self.cache_map)
-            self.fig.canvas.draw()
+            bg = self.fig.canvas.copy_from_bbox(self.ax.bbox)
+            
+            self.img_data.set_data(self.cache_map)
+
+            self.fig.canvas.restore_region(bg)
+            self.ax.draw_artist(self.img_data)
+            self.fig.canvas.blit(self.ax.bbox)
 
             self.fig.show()
 
@@ -63,19 +70,35 @@ class DFS_finder:
 
     def solve_map(self, start_point, end_point, plot=False):
         self.cache_map = self.map.copy()
+        cmap = ListedColormap(['#000000', '#eeeeee', '#9999ee', '#4444ff', '#44ff44', '#ff4444'])
         self.fig = plt.figure()
-        self.ax = fig.add_subplot()
-        self.plot = plot
-        path = self.__find_path(start_point, end_point, [])
-        if self.plot:
-            self.cache_map[end_point[0]][end_point[1]] = 4
+        self.ax = self.fig.add_subplot()
 
-            for self.p in path:
-                self.cache_map[p[0]][p[1]] = 4
-                self.ax.matshow(self.cache_map)
-                self.fig.canvas.draw()
+        self.cache_map[end_point] = 5
+        self.img_data = self.ax.matshow(self.cache_map, cmap=cmap)
+        self.fig.canvas.draw()
+
+        self.cache_map[end_point] = 1
+
+        self.plot = plot
+
+        found, path = self.__find_path(start_point, end_point, [])
+
+        if self.plot and found:
+            self.cache_map[end_point] = 5
+
+            for p in path:
+                self.cache_map[p] = 4
+                bg = self.fig.canvas.copy_from_bbox(self.ax.bbox)
+                
+                self.img_data.set_data(self.cache_map)
+
+                self.fig.canvas.restore_region(bg)
+                self.ax.draw_artist(self.img_data)
+                self.fig.canvas.blit(self.ax.bbox)
 
                 self.fig.show()
 
                 plt.pause(0.0001)
-        return path
+
+        return found, path

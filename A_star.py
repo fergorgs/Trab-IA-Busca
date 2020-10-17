@@ -23,13 +23,20 @@ class A_star_finder:
 
 
     def __find_path(self, start_point, end_point, plot):
+        cmap = ListedColormap(['#000000', '#eeeeee', '#9999ee', '#4444ff', '#44ff44', '#ff4444'])
         fig = plt.figure()
         ax = fig.add_subplot()
-        cmap = ListedColormap(['#000000', '#eeeeee', '#9999ee', '#4444ff', '#44ff44'])
 
         prior_queue = []
         parent_nodes = {}
         self.cache_map = self.map.copy()
+
+        self.cache_map[end_point] = 5
+        img_data = ax.matshow(self.cache_map, cmap=cmap)
+        fig.canvas.draw()
+
+        self.cache_map[end_point] = 1
+        
         heappush(prior_queue, [0, 0, start_point, (-1, -1)])
         found = False
 
@@ -62,8 +69,13 @@ class A_star_finder:
 
                 
                 if plot:
-                    ax.matshow(self.cache_map, cmap=cmap)
-                    fig.canvas.draw()
+                    bg = fig.canvas.copy_from_bbox(ax.bbox)
+
+                    img_data.set_data(self.cache_map)
+
+                    fig.canvas.restore_region(bg)
+                    ax.draw_artist(img_data)
+                    fig.canvas.blit(ax.bbox)
 
                     fig.show()
 
@@ -81,12 +93,18 @@ class A_star_finder:
             cur_pos = parent_nodes[cur_pos]
 
         if plot:
-            self.cache_map[end_point[0]][end_point[1]] = 4
+            self.cache_map[end_point] = 5
 
             for p in path:
-                self.cache_map[p[0]][p[1]] = 4
-                ax.matshow(self.cache_map, cmap=cmap)
-                fig.canvas.draw()
+                self.cache_map[p] = 4
+
+                bg = fig.canvas.copy_from_bbox(ax.bbox)
+                
+                img_data.set_data(self.cache_map)
+
+                fig.canvas.restore_region(bg)
+                ax.draw_artist(img_data)
+                fig.canvas.blit(ax.bbox)
 
                 fig.show()
 

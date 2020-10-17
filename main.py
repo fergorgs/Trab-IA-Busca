@@ -38,38 +38,38 @@ for i in range(shape[0]):
 # DFS-------------------------------------------------
 
 # dsf = DFS_finder(map)
-# res, path = dsf.solve_map(start_point, end_point)
-
+# res, path = dsf.solve_map(start_point, end_point, plot=True)
+# 
 # print(res)
 # print(path)
 
 # BFS-------------------------------------------------
 
 # bsf = BFS_finder(map)
-# res, path = bsf.solve_map(start_point, end_point)
-
+# res, path = bsf.solve_map(start_point, end_point, plot=True)
+# 
 # print(res)
 # print(path)
 
 # Best_first----------------------------------------------
 
 # best_first = Best_first_finder(map)
-# res, path = best_first.solve_map(start_point, end_point)
-
+# res, path = best_first.solve_map(start_point, end_point, plot=True)
+# 
 # print(res)
 # print(path)
 
 # A_star----------------------------------------------
 
-a_star = A_star_finder(map)
-res, path = a_star.solve_map(start_point, end_point, plot=True)
-print(res)
-print(path)
+# a_star = A_star_finder(map)
+# res, path = a_star.solve_map(start_point, end_point, plot=True)
+# print(res)
+# print(path)
 
 # Hill_Climbing----------------------------------------------
 
-# hill_climbing = Hill_climbing_finder(map)
-# res, path = hill_climbing.solve_map(start_point, end_point)
+hill_climbing = Hill_climbing_finder(map)
+res, path = hill_climbing.solve_map(start_point, end_point, plot=True)
 
-# print(res)
-# print(path)
+print(res)
+print(path)
