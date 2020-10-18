@@ -38,7 +38,7 @@ for i in range(shape[0]):
 # Map Generator
 
 gen = Map_generator()
-seed, start, end, map = gen.make_map(N=20, M=20, iterations=40, min_length_of_hallways=5)
+seed, start, end, map = gen.make_map(N=20, M=20, iterations=100000, min_length_of_hallways=5)
 
 for line in map:
     for c in line:

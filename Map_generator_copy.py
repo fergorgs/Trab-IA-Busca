@@ -45,34 +45,50 @@ class Map_generator:
         x = 0
         y = 0
         coming_from_dir = (move_dir+2) % 4
-        prevent_stuck = 0
-        prev_pos = (cur_i, cur_j)
         while(x < iterations):
-            
-            if((cur_i, cur_j) == prev_pos):
-                prevent_stuck += 1
-                if(prevent_stuck == 4):
-                    cur_i = int(N/2)
-                    cur_j = int(M/2)
-                    prevent_stuck = 0
-            else:
-                prevent_stuck = 0
-
-            prev_pos = (cur_i, cur_j)
-                    
-            print((cur_i, cur_j))
+            # print((cur_i, cur_j))
             map[cur_i][cur_j] = 1
             viable_positions.append((cur_i, cur_j))
 
             if(steps == 0):
-                move_dir = int(seed[y % len(seed)])*int(seed[(y+1) % len(seed)])
-                move_dir %= 4
-                if(move_dir == coming_from_dir):
-                    move_dir += 1
-                    move_dir %= 4
-                coming_from_dir = (move_dir+2) % 4
-                steps = min_length_of_hallways
+                
+                avalible_moves =[]
+
+                # selects not visited nodes
+                if(cur_i - 1 >= 0 and map[cur_i - 1][cur_j] == 0):
+                    avalible_moves.append(0)
+                if(cur_j - 1 >= 0 and map[cur_i][cur_j - 1] == 0):
+                    avalible_moves.append(1)
+                if(cur_i + 1 < N and map[cur_i + 1][cur_j] == 0):
+                    avalible_moves.append(2)
+                if(cur_j + 1 < M and map[cur_i][cur_j + 1] == 0):
+                    avalible_moves.append(3)
+
+                # if all nodes have been visited, selects all nodes
+                if(len(avalible_moves) == 0):
+                    if(cur_i - 1 >= 0):
+                        avalible_moves.append(0)
+                    if(cur_j - 1 >= 0):
+                        avalible_moves.append(1)
+                    if(cur_i + 1 < N):
+                        avalible_moves.append(2)
+                    if(cur_j + 1 < M):
+                        avalible_moves.append(3)
+
+                print(avalible_moves)
+                #chooses a direction
+                move_dir = avalible_moves[int(seed[y % len(seed)]) % len(avalible_moves)]
                 y += 1
+            
+            # if(steps == 0):
+            #     move_dir = int(seed[y % len(seed)])*int(seed[(y+1) % len(seed)])
+            #     move_dir %= 4
+            #     if(move_dir == coming_from_dir):
+            #         move_dir += 1
+            #         move_dir %= 4
+            #     coming_from_dir = (move_dir+2) % 4
+            #     steps = min_length_of_hallways
+            #     y += 1
 
             # 0 = cima / 1 = esquerda / 2 = baixo / 3 = direita
             if(move_dir == 0):
