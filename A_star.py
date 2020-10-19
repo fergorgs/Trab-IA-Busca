@@ -1,7 +1,9 @@
 import numpy
+import math
 import matplotlib.pyplot as plt
 from heapq import heappush, heappop
 from matplotlib.colors import ListedColormap
+import time
 
 directions = [[-1, 0], [0, -1], [1, 0], [0, 1]]
 
@@ -22,7 +24,7 @@ class A_star_finder:
         self.map = map
 
 
-    def __find_path(self, start_point, end_point, plot):
+    def __find_path(self, start_point, end_point, plot, h):
         cmap = ListedColormap(['#000000', '#eeeeee', '#9999ee', '#4444ff', '#44ff44', '#ff4444'])
         fig = plt.figure()
         ax = fig.add_subplot()
@@ -39,6 +41,8 @@ class A_star_finder:
         
         heappush(prior_queue, [0, 0, start_point, (-1, -1)])
         found = False
+
+        start_time = time.time()
 
         while prior_queue:
 
@@ -63,7 +67,12 @@ class A_star_finder:
                 if next_pos[0] < 0 or next_pos[1] < 0 or next_pos[0] >= self.map.shape[0] or next_pos[1] >= self.map.shape[1] or not self.cache_map[next_pos] or self.cache_map[next_pos] == 3:
                     continue
 
-                next_cost = cur_depth + 1 + abs(end_point[0] - next_pos[0]) + abs(end_point[1] - next_pos[1])
+                next_cost = cur_depth + 1
+                if h == 'm':
+                    next_cost += abs(end_point[0] - next_pos[0]) + abs(end_point[1] - next_pos[1])
+                elif h == 'e':
+                    next_cost += math.sqrt(abs(end_point[0] - next_pos[0]) + abs(end_point[1] - next_pos[1]))
+                
                 heappush(prior_queue, [next_cost, cur_depth + 1, next_pos, cur_pos])
                 self.cache_map[next_pos] = 2
 
@@ -81,11 +90,12 @@ class A_star_finder:
 
                     plt.pause(0.0001)
 
-        
+        e_time = time.time() - start_time
+
         if(not found):
             if (plot):
                 plt.show()
-            return False, None
+            return False, None, e_time
 
         path = []
         
@@ -112,11 +122,12 @@ class A_star_finder:
 
                 plt.pause(0.0001)
 
+            self.cache_map[end_point] = 5
             plt.show()
         
-        return True, path
+        return True, path, e_time
 
 
-    def solve_map(self, start_point, end_point, plot=False):
+    def solve_map(self, start_point, end_point, plot=False, h='m'):
 
-        return self.__find_path(start_point, end_point, plot)
+        return self.__find_path(start_point, end_point, plot, h)

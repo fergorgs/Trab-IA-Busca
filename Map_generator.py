@@ -60,9 +60,10 @@ class Map_generator:
 
             prev_pos = (cur_i, cur_j)
                     
-            print((cur_i, cur_j))
+            # print((cur_i, cur_j))
             map[cur_i][cur_j] = 1
-            viable_positions.append((cur_i, cur_j))
+            if((cur_i, cur_j) not in viable_positions):
+                viable_positions.append((cur_i, cur_j))
 
             if(steps == 0):
                 move_dir = int(seed[y % len(seed)])*int(seed[(y+1) % len(seed)])
@@ -115,8 +116,16 @@ class Map_generator:
             aux = int(seed[10])*int(seed[11])*int(seed[12])
             aux %= len(viable_positions)
             start_point = viable_positions[aux]
+            viable_positions.pop(aux)
 
+        print(viable_positions)
         if(end_point == None):
+            # dist_to_end = -100
+            # for pos in viable_positions:
+            #     dist = abs(start_point[0] - pos[0]) + abs(start_point[1] - pos[1])
+            #     if(dist > dist_to_end):
+            #         dist_to_end = dist
+            #         end_point = pos
             aux = int(seed[12])*int(seed[13])*int(seed[14])
             aux %= len(viable_positions)
             end_point = viable_positions[aux]

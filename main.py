@@ -4,8 +4,9 @@ from DFS import DFS_finder
 from BFS import BFS_finder
 from Best_first import Best_first_finder
 from A_star import A_star_finder
-from Hill_climbing import Hill_climbing_finder
+# from Hill_climbing import Hill_climbing_finder
 from Map_generator import Map_generator
+import cProfile
 
 
 #GETTING INPUT---------------------------------------
@@ -38,7 +39,7 @@ for i in range(shape[0]):
 # Map Generator
 
 gen = Map_generator()
-seed, start, end, map = gen.make_map(N=20, M=20, iterations=100000, min_length_of_hallways=5)
+seed, start, end, map = gen.make_map(N=20, M=20, iterations=10000, min_length_of_hallways=5)
 
 for line in map:
     for c in line:
@@ -47,11 +48,12 @@ for line in map:
 
 # DFS-------------------------------------------------
 
-# dsf = DFS_finder(map)
-# res, path = dsf.solve_map(start_point, end_point, plot=True)
-# 
-# print(res)
-# print(path)
+dsf = DFS_finder(map)
+res, path = dsf.solve_map(start_point, end_point, plot=True)
+# cProfile.run('dsf.solve_map(start_point, end_point, plot=True)')
+
+print(res)
+print(path)
 
 # BFS-------------------------------------------------
 
@@ -79,7 +81,7 @@ for line in map:
 # Hill_Climbing----------------------------------------------
 
 # hill_climbing = Hill_climbing_finder(map)
-# res, path = hill_climbing.solve_map(start_point, end_point, plot=True)
+# res, path = hill_climbing.solve_map(start_point, end_point, plot=True, h='e')
 
 # print(res)
 # print(path)

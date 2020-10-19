@@ -1,6 +1,7 @@
 import numpy
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+import time
 
 
 class DFS_finder:
@@ -82,7 +83,11 @@ class DFS_finder:
 
         self.plot = plot
 
+        start_time = time.time()
+
         found, path = self.__find_path(start_point, end_point, [])
+        
+        e_time = time.time() - start_time
 
         if self.plot and found:
             self.cache_map[end_point] = 5
@@ -101,6 +106,7 @@ class DFS_finder:
 
                 plt.pause(0.0001)
 
+            self.cache_map[end_point] = 5
         if (plot):
             plt.show()
-        return found, path
+        return found, path, e_time

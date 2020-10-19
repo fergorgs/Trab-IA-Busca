@@ -1,6 +1,7 @@
 import numpy
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+import time
 
 
 class BFS_finder:
@@ -41,6 +42,8 @@ class BFS_finder:
 
         cur_pos = (-1, -1)
         found = False
+
+        start_time = time.time()
 
         while queue:
 
@@ -86,6 +89,8 @@ class BFS_finder:
 
                 plt.pause(0.0001)
 
+        e_time = time.time() - start_time
+
         if(not found):
             if (plot):
                 plt.show()
@@ -116,9 +121,10 @@ class BFS_finder:
 
                 plt.pause(0.0001)
             
+            self.cache_map[end_point] = 5
             plt.show()
         
-        return True, path
+        return True, path, e_time
 
 
     def solve_map(self, start_point, end_point, plot=False):

@@ -33,7 +33,7 @@ def input_map():
 
     return char_map
 
-def convert_map_and_run(char_map):
+def convert_map_and_run(char_map, plot, heuristic):
     N = len(char_map)
     M = len(char_map[0])
     map = numpy.zeros((N, M))
@@ -53,38 +53,48 @@ def convert_map_and_run(char_map):
                 end_point = (i, j)
 
     
-    found, path = DFS_finder(map).solve_map(start_point, end_point, plot=True)
+    found, path, tempo = DFS_finder(map).solve_map(start_point, end_point, plot=plot)
     if (found):
         print('Caminho da DFS:')
         print(path)
+        print('Tempo:')
+        print(tempo)
     else:
         print('DFS não achou caminho')
     
-    found, path = BFS_finder(map).solve_map(start_point, end_point, plot=True)
+    found, path, tempo = BFS_finder(map).solve_map(start_point, end_point, plot=plot)
     if (found):
         print('Caminho da BFS:')
         print(path)
+        print('Tempo:')
+        print(tempo)
     else:
         print('BFS não achou caminho')
     
-    found, path = A_star_finder(map).solve_map(start_point, end_point, plot=True)
+    found, path, tempo = A_star_finder(map).solve_map(start_point, end_point, plot=plot, h=heuristic)
     if (found):
         print('Caminho da A*:')
         print(path)
+        print('Tempo:')
+        print(tempo)
     else:
         print('A* não achou caminho')
     
-    found, path = Best_first_finder(map).solve_map(start_point, end_point, plot=True)
+    found, path, tempo = Best_first_finder(map).solve_map(start_point, end_point, plot=plot, h=heuristic)
     if (found):
         print('Caminho da Best-First:')
         print(path)
+        print('Tempo:')
+        print(tempo)
     else:
         print('Best-First não achou caminho')
     
-    found, path = Hill_climbing_finder(map).solve_map(start_point, end_point, plot=True)
+    found, path, tempo = Hill_climbing_finder(map).solve_map(start_point, end_point, plot=plot, h=heuristic)
     if (found):
         print('Caminho da Hill-Climbing:')
         print(path)
+        print('Tempo:')
+        print(tempo)
     else:
         print('Hill-Climbing não achou caminho')
 
@@ -93,15 +103,27 @@ def main():
     seed = ''
     gen_map = []
     inp_map = []
+    h = 'm'
+    plot = True
 
     while (int(opt) != 0):
         print('Selecione uma das opções abaixo:')
         print()
         print('1. Gerar um mapa')
         print('2. Entrar com mapa e usá-lo')
-
+        
+        if h == 'm':
+            print('3. Trocar Heuristica para distância Euclidiana')
+        elif h == 'e':
+            print('3. Trocar Heuristica para distância Manhattan')
+        
+        if plot:
+            print('4. Não usar plotagem (está usando atualmente)')
+        elif not plot:
+            print('4. Usar plotagem (não está usando atualmente)')
+        
         if (seed != ''):
-            print('3. Usar mapa gerado')
+            print('5. Usar mapa gerado')
 
         print('0. Sair')
 
@@ -111,9 +133,16 @@ def main():
             seed, gen_map = map_gen()
         elif int(opt) == 2:
             inp_map = input_map()
-            convert_map_and_run(inp_map)
+            convert_map_and_run(inp_map, plot, h)
         elif int(opt) == 3:
-            convert_map_and_run(gen_map)
+            if h == 'e':
+                h = 'm'
+            elif h == 'm':
+                h = 'e'
+        elif int(opt) == 4:
+            plot = not plot
+        elif int(opt) == 5:
+            convert_map_and_run(gen_map, plot, h)
 
 
 
