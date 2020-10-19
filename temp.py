@@ -21,32 +21,20 @@ def map_gen():
     return data[0], data[3]
 
 def input_map():
-    error = True
-    while error:
-        error = False
-        shape = input()
-        shape = shape.split()
-        if len(shape) != 2:
-            print("Entre exatamente 2 numeros para o foramto do mapa")
-            error = True
-        else:
-            try:
-                shape = list(map(int, shape))
-            except:
-                print("Entre valores numericos para o formato")
-                error = True
+    shape = input()
+    shape = shape.split()
+    shape[0] = int(shape[0])
+    shape[1] = int(shape[1])
+
     
-    char_map = [[''] * shape[1] for _ in range(shape[0])]
-    # char_map = [['' for __ in range(shape[1])] for _ in range(shape[0])]
+    char_map = [['' for __ in range(shape[1])] for _ in range(shape[0])]
 
     for i in range(shape[0]):
         line = input()
-
         for j, c in enumerate(line):
             char_map[i][j] = c
 
     return char_map
-    
 def print_maps(path):
     dir_path = f'Inputs/{path}'
     files = os.listdir(dir_path)
@@ -74,40 +62,31 @@ def get_map_and_run(plot, heuristic):
     print('1. 10x10')
     print('2. 30x30')
     print('3. 50x50')
-    while True:
-        try:
-            size = int(input())
-            if size < 1 or size > 3:
-                raise ValueError()
-            break
-        except KeyboardInterrupt:
-            return
-        except:
-            print("Entre um valor numerico entre 1 e 3 (incluso)")
-            continue
+
+    size = int(input())
 
     all_maps = 0
+    if size != 1 and size != 2 and size != 3:
+        print('O tamanho de mapa não existe.')
+        return
+
     all_maps = print_maps(sizes[size])
 
-    while True:
-        try:
-            selected = int(input())
-            if selected < 1 or selected > len(all_maps):
-                raise ValueError()
-            break
-        except KeyboardInterrupt:
-            return
-        except:
-            print(f"Entre um valor numerico entre 1 e {len(all_maps)} (incluso)")
-            continue
+    selected = int(input())
+
+    if selected > len(all_maps):
+        print('O mapa não existe.')
+        return
 
     m_path = all_maps[selected - 1]
     m_file = open(f'Inputs/{sizes[size]}/{m_path}')
 
     shape = m_file.readline() 
     shape = shape.split()
-    shape = list(map(int, shape))
-    char_map = [[''] * shape[1] for _ in range(shape[0])]
+    shape[0] = int(shape[0])
+    shape[1] = int(shape[1])
+
+    char_map = [['' for __ in range(shape[1])] for _ in range(shape[0])]
 
     for i in range(shape[0]):
         line = m_file.readline().split('\n')[0] 
@@ -193,7 +172,7 @@ def main():
     h = 'm'
     plot = True
 
-    while (opt != 0):
+    while (int(opt) != 0):
         print('Selecione uma das opções abaixo:')
         print()
         print('1. Gerar um mapa')
@@ -218,29 +197,21 @@ def main():
 
         opt = input()
 
-        try:
-            opt = int(opt)
-            if opt > 6 or opt < 0:
-                raise ValueError()
-        except:
-            print("Entre um numero valido entre 0 - 6")
-            continue
-
-        if opt == 1:
+        if int(opt) == 1:
             seed, gen_map = map_gen()
-        elif opt == 2:
+        elif int(opt) == 2:
             inp_map = input_map()
             convert_map_and_run(inp_map, plot, h)
-        elif opt == 3:
+        elif int(opt) == 3:
             if h == 'e':
                 h = 'm'
             elif h == 'm':
                 h = 'e'
-        elif opt == 4:
+        elif int(opt) == 4:
             plot = not plot
-        elif opt == 5:
+        elif int(opt) == 5:
             get_map_and_run(plot, h)
-        elif opt == 6:
+        elif int(opt) == 6:
             convert_map_and_run(gen_map, plot, h)
 
 
