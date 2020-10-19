@@ -74,17 +74,37 @@ def get_map_and_run(plot, heuristic):
     print('1. 10x10')
     print('2. 30x30')
     print('3. 50x50')
+    print('4. Mapa da Especificação')
     while True:
         try:
             size = int(input())
-            if size < 1 or size > 3:
+            if size < 1 or size > 4:
                 raise ValueError()
             break
         except KeyboardInterrupt:
             return
         except:
-            print("Entre um valor numerico entre 1 e 3 (incluso)")
+            print("Entre um valor numerico entre 1 e 4 (incluso)")
             continue
+
+    if size == 4:
+        m_file = open('Inputs/input.txt')
+
+        shape = m_file.readline() 
+        shape = shape.split()
+        shape = list(map(int, shape))
+        char_map = [[''] * shape[1] for _ in range(shape[0])]
+
+        for i in range(shape[0]):
+            line = m_file.readline().split('\n')[0] 
+            for j, c in enumerate(line):
+                char_map[i][j] = c
+
+        m_file.close()
+
+        convert_map_and_run(char_map, plot, heuristic)
+
+        return 
 
     all_maps = 0
     all_maps = print_maps(sizes[size])
