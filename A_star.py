@@ -38,6 +38,9 @@ class A_star_finder:
         fig.canvas.draw()
 
         self.cache_map[end_point] = 1
+
+        if not plot:
+            plt.close(fig)
         
         heappush(prior_queue, [0, 0, start_point, (-1, -1)])
         found = False
@@ -95,6 +98,7 @@ class A_star_finder:
         if(not found):
             if (plot):
                 plt.show()
+                # plt.close(fig)
             return False, None, e_time
 
         path = []
@@ -124,6 +128,7 @@ class A_star_finder:
 
             self.cache_map[end_point] = 5
             plt.show()
+            # plt.close(fig)
         
         return True, path, e_time
 

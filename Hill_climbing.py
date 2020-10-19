@@ -32,6 +32,9 @@ class Hill_climbing_finder:
         fig.canvas.draw()
 
         self.cache_map[end_point] = 1
+
+        if not plot:
+            plt.close(fig)
         
         path = []
         cur_pos = start_point

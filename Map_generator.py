@@ -3,7 +3,7 @@ import random
 
 class Map_generator:
     
-    def make_map(self, M=None, N=None, iterations=None, min_length_of_hallways=None, start_point=None, end_point=None, seed=None):
+    def make_map(self, M=None, N=None, iterations=None, min_length_of_hallways=None, start_point=None, end_point=None, seed=None, create_file=False):
 
         if(seed == None):
             seed = str(random.randrange(1000000, 9999999)) + str(random.randrange(1000000, 9999999)) + str(random.randrange(1000000, 9999999))
@@ -144,16 +144,17 @@ class Map_generator:
 
         char_map[start_point[0]][start_point[1]] = '#'
         char_map[end_point[0]][end_point[1]] = '$'
-
-        with open(f'Inputs/{seed}.txt', 'w') as f:
-            # f.write(str(start_point[0]) + ' ' + str(start_point[1]) + '\n')
-            # f.write(str(end_point[0]) + ' ' + str(end_point[1]) + '\n')
-            f.write(f'{str(N)} {str(M)}\n')
-            for sublist in char_map:
-                line = ''
-                for c in sublist:
-                    line += c
-                f.write(line + '\n')
+        
+        if create_file:
+            with open(f'Inputs/{seed}.txt', 'w') as f:
+                # f.write(str(start_point[0]) + ' ' + str(start_point[1]) + '\n')
+                # f.write(str(end_point[0]) + ' ' + str(end_point[1]) + '\n')
+                f.write(f'{str(N)} {str(M)}\n')
+                for sublist in char_map:
+                    line = ''
+                    for c in sublist:
+                        line += c
+                    f.write(line + '\n')
 
 
         return seed, start_point, end_point, char_map

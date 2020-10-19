@@ -81,6 +81,9 @@ class DFS_finder:
 
         self.cache_map[end_point] = 1
 
+        if not plot:
+            plt.close(self.fig)
+
         self.plot = plot
 
         start_time = time.time()

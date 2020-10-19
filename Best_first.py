@@ -39,6 +39,9 @@ class Best_first_finder:
 
         self.cache_map[end_point] = 1
 
+        if not plot:
+            plt.close(fig)
+
         heappush(prior_queue, [0, start_point, (-1, -1)])
         found = False
 

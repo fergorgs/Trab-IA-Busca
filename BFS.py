@@ -40,6 +40,9 @@ class BFS_finder:
 
         self.cache_map[end_point] = 1
 
+        if not plot:
+            plt.close(fig)
+
         cur_pos = (-1, -1)
         found = False
 

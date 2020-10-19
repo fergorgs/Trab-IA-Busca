@@ -1,4 +1,5 @@
 import numpy
+import os
 from DFS import DFS_finder
 from BFS import BFS_finder
 from Best_first import Best_first_finder
@@ -32,6 +33,69 @@ def input_map():
             char_map[i][j] = c
 
     return char_map
+def print_maps(path):
+    dir_path = f'Inputs/{path}'
+    files = os.listdir(dir_path)
+
+    for i, f in enumerate(files):
+        map_file = open(f'{dir_path}/{f}')
+        N = int(map_file.readline().split()[0])
+
+        print(f'{i + 1}.', end='')
+        for _ in range(N):
+            line = map_file.readline()
+            print(f'\t{line}', end='')
+        
+        print()
+
+        map_file.close()
+
+
+    return files
+
+def get_map_and_run(plot, heuristic):
+    sizes = ['', 'small', 'medium', 'large']
+
+    print('Selecione um tamanho de labirinto:')
+    print('1. 10x10')
+    print('2. 30x30')
+    print('3. 50x50')
+
+    size = int(input())
+
+    all_maps = 0
+    if size != 1 and size != 2 and size != 3:
+        print('O tamanho de mapa não existe.')
+        return
+
+    all_maps = print_maps(sizes[size])
+
+    selected = int(input())
+
+    if selected > len(all_maps):
+        print('O mapa não existe.')
+        return
+
+    m_path = all_maps[selected - 1]
+    m_file = open(f'Inputs/{sizes[size]}/{m_path}')
+
+    shape = m_file.readline() 
+    shape = shape.split()
+    shape[0] = int(shape[0])
+    shape[1] = int(shape[1])
+
+    char_map = [['' for __ in range(shape[1])] for _ in range(shape[0])]
+
+    for i in range(shape[0]):
+        line = m_file.readline().split('\n')[0] 
+        for j, c in enumerate(line):
+            char_map[i][j] = c
+
+    m_file.close()
+
+    convert_map_and_run(char_map, plot, heuristic)
+    
+    
 
 def convert_map_and_run(char_map, plot, heuristic):
     N = len(char_map)
@@ -121,9 +185,11 @@ def main():
             print('4. Não usar plotagem (está usando atualmente)')
         elif not plot:
             print('4. Usar plotagem (não está usando atualmente)')
+
+        print('5. Rodar com mapa de exemplo')
         
         if (seed != ''):
-            print('5. Usar mapa gerado')
+            print('6. Usar mapa gerado')
 
         print('0. Sair')
 
@@ -142,6 +208,8 @@ def main():
         elif int(opt) == 4:
             plot = not plot
         elif int(opt) == 5:
+            get_map_and_run(plot, h)
+        elif int(opt) == 6:
             convert_map_and_run(gen_map, plot, h)
 
 
