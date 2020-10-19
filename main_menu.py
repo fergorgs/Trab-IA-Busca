@@ -6,6 +6,8 @@ from Best_first import Best_first_finder
 from A_star import A_star_finder
 from Hill_climbing import Hill_climbing_finder
 from Map_generator import Map_generator
+import matplotlib
+matplotlib.use('TkAgg')
 
 def map_gen():
     data = Map_generator().make_map()
