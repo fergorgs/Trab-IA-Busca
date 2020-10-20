@@ -73,7 +73,6 @@ class Hill_climbing_finder:
 
             next_pos = None
 
-            cur_cost = 100000000
             #Ordem de chamada: cima, esquerda, baixo, direita
             if(cur_pos[0]-1 >= 0 and self.cache_map[cur_pos[0]-1][cur_pos[1]] == 1):            # se existe e é viavel
                 if (h == 'm'):
