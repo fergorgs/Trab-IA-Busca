@@ -164,6 +164,7 @@ def convert_map_and_run(char_map, plot, heuristic):
     if (found):
         print('Caminho da DFS:')
         print(path)
+        print('Tam: ' + str(len(path)))
         print('Tempo:')
         print(tempo)
     else:
@@ -173,6 +174,7 @@ def convert_map_and_run(char_map, plot, heuristic):
     if (found):
         print('Caminho da BFS:')
         print(path)
+        print('Tam: ' + str(len(path)))
         print('Tempo:')
         print(tempo)
     else:
@@ -182,6 +184,7 @@ def convert_map_and_run(char_map, plot, heuristic):
     if (found):
         print('Caminho da A*:')
         print(path)
+        print('Tam: ' + str(len(path)))
         print('Tempo:')
         print(tempo)
     else:
@@ -191,6 +194,7 @@ def convert_map_and_run(char_map, plot, heuristic):
     if (found):
         print('Caminho da Best-First:')
         print(path)
+        print('Tam: ' + str(len(path)))
         print('Tempo:')
         print(tempo)
     else:
@@ -200,6 +204,7 @@ def convert_map_and_run(char_map, plot, heuristic):
     if (found):
         print('Caminho da Hill-Climbing:')
         print(path)
+        print('Tam: ' + str(len(path)))
         print('Tempo:')
         print(tempo)
     else:

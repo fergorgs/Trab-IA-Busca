@@ -74,7 +74,7 @@ class A_star_finder:
                 if h == 'm':
                     next_cost += abs(end_point[0] - next_pos[0]) + abs(end_point[1] - next_pos[1])
                 elif h == 'e':
-                    next_cost += math.sqrt(abs(end_point[0] - next_pos[0]) + abs(end_point[1] - next_pos[1]))
+                    next_cost += math.sqrt((abs(end_point[0] - next_pos[0]))**2 + (abs(end_point[1] - next_pos[1]))**2)
                 
                 heappush(prior_queue, [next_cost, cur_depth + 1, next_pos, cur_pos])
                 self.cache_map[next_pos] = 2

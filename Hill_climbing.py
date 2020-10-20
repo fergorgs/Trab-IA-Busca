@@ -78,7 +78,7 @@ class Hill_climbing_finder:
                 if (h == 'm'):
                     new_cost = abs(end_point[0] - (cur_pos[0]-1)) + abs(end_point[1] - cur_pos[1])  # calcula o novo custo
                 elif (h == 'e'):
-                    new_cost = math.sqrt(abs(end_point[0] - (cur_pos[0]-1)) + abs(end_point[1] - cur_pos[1]))
+                    new_cost = math.sqrt(abs(end_point[0] - (cur_pos[0]-1))**2 + abs(end_point[1] - cur_pos[1])**2)
 
                 if(new_cost <= cur_cost):                                                       # se é melhor ou igual ao atual
                     cur_cost = new_cost                                                         # atualiza o custo atual
@@ -89,7 +89,7 @@ class Hill_climbing_finder:
                 if (h == 'm'):
                     new_cost = abs(end_point[0] - cur_pos[0]) + abs(end_point[1] - (cur_pos[1]-1))  # calcula o novo custo
                 elif (h == 'e'):
-                    new_cost = math.sqrt(abs(end_point[0] - cur_pos[0]) + abs(end_point[1] - (cur_pos[1]-1)))
+                    new_cost = math.sqrt(abs(end_point[0] - cur_pos[0])**2 + abs(end_point[1] - (cur_pos[1]-1))**2)
 
                 if(new_cost <= cur_cost):
                     cur_cost = new_cost
@@ -100,7 +100,7 @@ class Hill_climbing_finder:
                 if (h == 'm'):
                     new_cost = abs(end_point[0] - (cur_pos[0]+1)) + abs(end_point[1] - cur_pos[1])  # calcula o novo custo
                 elif (h == 'e'):
-                    new_cost = math.sqrt(abs(end_point[0] - (cur_pos[0]+1)) + abs(end_point[1] - cur_pos[1]))
+                    new_cost = math.sqrt(abs(end_point[0] - (cur_pos[0]+1))**2 + abs(end_point[1] - cur_pos[1])**2)
 
                 if(new_cost <= cur_cost):
                     cur_cost = new_cost
@@ -111,7 +111,7 @@ class Hill_climbing_finder:
                 if (h == 'm'):
                     new_cost = abs(end_point[0] - cur_pos[0]) + abs(end_point[1] - (cur_pos[1]+1))  # calcula o novo custo
                 elif (h == 'e'):
-                    new_cost = math.sqrt(abs(end_point[0] - cur_pos[0]) + abs(end_point[1] - (cur_pos[1]+1)))
+                    new_cost = math.sqrt(abs(end_point[0] - cur_pos[0])**2 + abs(end_point[1] - (cur_pos[1]+1))**2)
 
                 if(new_cost <= cur_cost):
                     cur_cost = new_cost
